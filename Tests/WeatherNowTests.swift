@@ -13,12 +13,12 @@ import WeatherNow
 
 class WeatherNowTests: XCTestCase
 {
-    /**
-     Seed ata structure:
-     https://openweathermap.org/current#geo
-     */
     func testCurrentWeatherDecoding()
     {
+        /**
+         Seed data structure:
+         https://openweathermap.org/current#geo
+         */
         let sourceInfo = """
             {"coord":{"lon":139,"lat":35},
             "sys":{"country":"JP","sunrise":1369769524,"sunset":1369821049},

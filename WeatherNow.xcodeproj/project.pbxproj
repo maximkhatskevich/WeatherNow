@@ -16,6 +16,14 @@
 		94C71AD721822D96004F9FA3 /* OpenWeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AD621822D96004F9FA3 /* OpenWeatherAPI.swift */; };
 		94C71AD92182348A004F9FA3 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AD82182348A004F9FA3 /* Config.swift */; };
 		94C71ADC21824129004F9FA3 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71ADB21824129004F9FA3 /* Result.swift */; };
+		94C71ADF21824B60004F9FA3 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71ADE21824B60004F9FA3 /* WeatherProvider.swift */; };
+		94C71AE221824E5E004F9FA3 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AE121824E5E004F9FA3 /* Map.swift */; };
+		94C71AE421824E7A004F9FA3 /* Map_Ctr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AE321824E7A004F9FA3 /* Map_Ctr.swift */; };
+		94C71AE721825496004F9FA3 /* LocationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AE621825496004F9FA3 /* LocationInfo.swift */; };
+		94C71AE9218254AD004F9FA3 /* LocationInfo_Ctr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AE8218254AD004F9FA3 /* LocationInfo_Ctr.swift */; };
+		94C71AEB218254E2004F9FA3 /* BaseCtr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AEA218254E2004F9FA3 /* BaseCtr.swift */; };
+		94C71AED21825664004F9FA3 /* Root_Ctr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AEC21825664004F9FA3 /* Root_Ctr.swift */; };
+		94C71AF021825698004F9FA3 /* Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AEF21825698004F9FA3 /* Root.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +48,14 @@
 		94C71AD621822D96004F9FA3 /* OpenWeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherAPI.swift; sourceTree = "<group>"; };
 		94C71AD82182348A004F9FA3 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		94C71ADB21824129004F9FA3 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		94C71ADE21824B60004F9FA3 /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
+		94C71AE121824E5E004F9FA3 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		94C71AE321824E7A004F9FA3 /* Map_Ctr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map_Ctr.swift; sourceTree = "<group>"; };
+		94C71AE621825496004F9FA3 /* LocationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo.swift; sourceTree = "<group>"; };
+		94C71AE8218254AD004F9FA3 /* LocationInfo_Ctr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInfo_Ctr.swift; sourceTree = "<group>"; };
+		94C71AEA218254E2004F9FA3 /* BaseCtr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCtr.swift; sourceTree = "<group>"; };
+		94C71AEC21825664004F9FA3 /* Root_Ctr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root_Ctr.swift; sourceTree = "<group>"; };
+		94C71AEF21825698004F9FA3 /* Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Root.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +111,7 @@
 				94C71ADA2182411C004F9FA3 /* Helpers */,
 				94C71AD321822BF1004F9FA3 /* App.swift */,
 				94C71ACC21822B46004F9FA3 /* AppDelegate.swift */,
+				94C71ADD21824B3C004F9FA3 /* Components */,
 				94C71AD521822D52004F9FA3 /* Services */,
 			);
 			path = Sources;
@@ -121,8 +138,47 @@
 			isa = PBXGroup;
 			children = (
 				94C71ADB21824129004F9FA3 /* Result.swift */,
+				94C71AEA218254E2004F9FA3 /* BaseCtr.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		94C71ADD21824B3C004F9FA3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				94C71ADE21824B60004F9FA3 /* WeatherProvider.swift */,
+				94C71AEE2182568E004F9FA3 /* Root */,
+				94C71AE021824E53004F9FA3 /* Map */,
+				94C71AE521825486004F9FA3 /* LocationInfo */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		94C71AE021824E53004F9FA3 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				94C71AE121824E5E004F9FA3 /* Map.swift */,
+				94C71AE321824E7A004F9FA3 /* Map_Ctr.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		94C71AE521825486004F9FA3 /* LocationInfo */ = {
+			isa = PBXGroup;
+			children = (
+				94C71AE621825496004F9FA3 /* LocationInfo.swift */,
+				94C71AE8218254AD004F9FA3 /* LocationInfo_Ctr.swift */,
+			);
+			path = LocationInfo;
+			sourceTree = "<group>";
+		};
+		94C71AEE2182568E004F9FA3 /* Root */ = {
+			isa = PBXGroup;
+			children = (
+				94C71AEF21825698004F9FA3 /* Root.swift */,
+				94C71AEC21825664004F9FA3 /* Root_Ctr.swift */,
+			);
+			path = Root;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -227,9 +283,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				94C71AD721822D96004F9FA3 /* OpenWeatherAPI.swift in Sources */,
+				94C71ADF21824B60004F9FA3 /* WeatherProvider.swift in Sources */,
 				94C71ADC21824129004F9FA3 /* Result.swift in Sources */,
+				94C71AE721825496004F9FA3 /* LocationInfo.swift in Sources */,
+				94C71AE9218254AD004F9FA3 /* LocationInfo_Ctr.swift in Sources */,
+				94C71AE221824E5E004F9FA3 /* Map.swift in Sources */,
+				94C71AED21825664004F9FA3 /* Root_Ctr.swift in Sources */,
+				94C71AEB218254E2004F9FA3 /* BaseCtr.swift in Sources */,
+				94C71AF021825698004F9FA3 /* Root.swift in Sources */,
 				94C71AD92182348A004F9FA3 /* Config.swift in Sources */,
 				94C71ACE21822B46004F9FA3 /* AppDelegate.swift in Sources */,
+				94C71AE421824E7A004F9FA3 /* Map_Ctr.swift in Sources */,
 				94C71AD421822BF1004F9FA3 /* App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

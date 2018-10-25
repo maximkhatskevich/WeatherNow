@@ -18,6 +18,7 @@ class OpenWeatherAPI
     
     enum InitializationError: Error
     {
+        case invalidAuthKey
         case invalidBaseAddress
     }
     
@@ -33,11 +34,21 @@ class OpenWeatherAPI
     // MARK: Initializers
     
     init(
-        authKey: String,
+        authKey: String?,
         baseAddress: String = "https://api.openweathermap.org/data/2.5/",
         queue: DispatchQueue = .global(qos: .background)
         ) throws
     {
+        guard
+            let authKey = authKey,
+            authKey.count > 0
+        else
+        {
+            throw InitializationError.invalidAuthKey
+        }
+        
+        //---
+        
         guard
             let baseAddress = URL(string: baseAddress)
         else

@@ -9,26 +9,67 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Map Ctr-->
         <scene sceneID="FQr-eu-TKH">
             <objects>
-                <viewController id="kCa-dn-7ZB" sceneMemberID="viewController">
+                <viewController id="kCa-dn-7ZB" customClass="Map_Ctr" customModule="WeatherNow" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gkI-vP-u9H">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sgF-dJ-GTm">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="9Cb-JH-yzs" appends="YES" id="H2E-ma-Gf8"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="sgF-dJ-GTm" firstAttribute="bottom" secondItem="DPw-Ug-kJL" secondAttribute="bottom" id="JCY-rb-eVf"/>
+                            <constraint firstItem="sgF-dJ-GTm" firstAttribute="trailing" secondItem="DPw-Ug-kJL" secondAttribute="trailing" id="TTv-Vc-5aN"/>
+                            <constraint firstItem="sgF-dJ-GTm" firstAttribute="leading" secondItem="DPw-Ug-kJL" secondAttribute="leading" id="dFN-r4-G30"/>
+                            <constraint firstItem="sgF-dJ-GTm" firstAttribute="top" secondItem="gkI-vP-u9H" secondAttribute="top" id="ilC-OI-LmH"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="DPw-Ug-kJL"/>
                     </view>
                     <navigationItem key="navigationItem" id="r2q-dc-kp6"/>
+                    <connections>
+                        <outlet property="doubleTap" destination="9Cb-JH-yzs" id="B7k-MK-ZnG"/>
+                        <outlet property="map" destination="sgF-dJ-GTm" id="xkS-K6-XTb"/>
+                        <segue destination="FJH-us-96o" kind="show" identifier="ShowLocaionInfo" id="vma-C4-KXr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CIX-cU-WyP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="9Cb-JH-yzs" userLabel="Double Tap Gesture Recognizer">
+                    <connections>
+                        <action selector="doubleTapOnMap:" destination="kCa-dn-7ZB" id="vhe-wE-hZ1"/>
+                        <outlet property="delegate" destination="kCa-dn-7ZB" id="MIM-Vw-YCk"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-173.59999999999999" y="-68.815592203898049"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Location Info Ctr-->
+        <scene sceneID="Qf4-Zc-ARn">
+            <objects>
+                <viewController id="FJH-us-96o" customClass="LocationInfo_Ctr" customModule="WeatherNow" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Par-xa-QYu">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="f9p-nc-W3s"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mbi-Vw-yin" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="722" y="-69"/>
+        </scene>
+        <!--Root Ctr-->
         <scene sceneID="aoL-OZ-e3K">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dRX-AN-08K" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dRX-AN-08K" customClass="Root_Ctr" customModule="WeatherNow" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Mbz-59-XA9">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
