@@ -8,7 +8,7 @@
 
 import UIKit
 
-//---
+// MARK: - UIApplicationDelegate Support
 
 extension App: UIApplicationDelegate
 {
