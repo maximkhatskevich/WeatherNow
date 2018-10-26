@@ -10,8 +10,6 @@ import UIKit
 
 //---
 
-//---
-
 extension LocationInfo
 {
     typealias Ctr = LocationInfo_Ctr
@@ -22,10 +20,5 @@ extension LocationInfo
 final
 class LocationInfo_Ctr: BaseCtr
 {
-    // MARK: UI Controls
-    
-//    @IBOutlet
-//    private
-//    weak
-//    var XXX: YYY!
+    //
 }

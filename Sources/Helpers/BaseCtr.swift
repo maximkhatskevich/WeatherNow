@@ -15,30 +15,14 @@ class BaseCtr: UIViewController
     private(set)
     weak
     var app: App?
-    
-    // MARK: AppBindable
+}
 
+// MARK: - AppBindable
+
+extension BaseCtr: AppBindable
+{
     func bind(with app: App)
     {
         self.app = app
-    }
-    
-    // MARK: Overrides
-
-    override
-    func viewDidLoad()
-    {
-        super.viewDidLoad()
-        
-        //---
-        
-        setupUI()
-    }
-    
-    // MARK: Commands
-
-    func setupUI()
-    {
-        //
     }
 }

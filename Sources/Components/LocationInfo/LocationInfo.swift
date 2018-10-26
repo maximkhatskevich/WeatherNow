@@ -6,10 +6,14 @@
 //  Copyright © 2018 Maxim Khatskevich. All rights reserved.
 //
 
+import CoreLocation
+
+//---
+
 enum LocationInfo
 {
     case unknown
-    case loading
-    case ready(OpenWeatherAPI.CurrentWeather)
-    case failedToLoad(Error)
+    case loading(CLLocationCoordinate2D)
+    case ready(WeatherSnapshot)
+    case failedToLoad(WeatherProvider.CurrentWeatherError)
 }

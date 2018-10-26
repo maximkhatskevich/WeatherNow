@@ -11,13 +11,6 @@ import CoreLocation
 
 //---
 
-protocol AppBindable
-{
-    func bind(with app: App)
-}
-
-//---
-
 @UIApplicationMain
 class App: UIResponder
 {
@@ -53,11 +46,14 @@ class App: UIResponder
     }
 }
 
-// MARK: - Commands
+// MARK: - UIApplicationDelegate
 
-extension App
+extension App: UIApplicationDelegate
 {
-    func setup()
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool
     {
         do
         {
@@ -71,27 +67,70 @@ extension App
         {
             weatherProvider = .unavailable(error)
         }
-    }
-    
-    func setupUI()
-    {
+        
+        //---
+        
         mapCtr?.bind(with: self)
+        
+        //---
+        
+        return true
     }
-    
+}
+
+// MARK: - Commands
+
+extension App
+{
+    func requestCurrentWeather(
+        for location: CLLocationCoordinate2D
+        )
+    {
+        weatherProvider.requestCurrentWeather(
+            for: location,
+            onSuccess: onWeatherLoadingSuccess,
+            onFauilure: onWeatherLoadingFailure
+        )
+    }
 }
 
 // MARK: - Notifications
 
 extension App
 {
-    func loadInfo(
-        for location: CLLocationCoordinate2D
+    private
+    func onWeatherLoadingFailure(
+        for error: WeatherProvider.CurrentWeatherError
         )
     {
-        locationInfo = .loading
+        locationInfo = .failedToLoad(error)
         
         //---
         
-        // load weather using weather service...
+        // update UI
+    }
+    
+    private
+    func onWeatherLoading(
+        for location: CLLocationCoordinate2D
+        )
+    {
+        locationInfo = .loading(location)
+        
+        //---
+        
+        // update UI
+    }
+    
+    private
+    func onWeatherLoadingSuccess(
+        weather: WeatherSnapshot
+        )
+    {
+         locationInfo = .ready(weather)
+        
+        //---
+        
+        // update UI
     }
 }

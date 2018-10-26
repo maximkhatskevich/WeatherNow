@@ -21,7 +21,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <gestureRecognizers/>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="9Cb-JH-yzs" appends="YES" id="H2E-ma-Gf8"/>
+                                    <outlet property="delegate" destination="kCa-dn-7ZB" id="MiW-3P-gUd"/>
+                                    <outletCollection property="gestureRecognizers" destination="dQv-sA-zk8" appends="YES" id="g2M-pt-4GM"/>
                                 </connections>
                             </mapView>
                         </subviews>
@@ -36,16 +37,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="r2q-dc-kp6"/>
                     <connections>
-                        <outlet property="doubleTap" destination="9Cb-JH-yzs" id="B7k-MK-ZnG"/>
                         <outlet property="map" destination="sgF-dJ-GTm" id="xkS-K6-XTb"/>
                         <segue destination="FJH-us-96o" kind="show" identifier="ShowLocaionInfo" id="vma-C4-KXr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CIX-cU-WyP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer numberOfTapsRequired="2" id="9Cb-JH-yzs" userLabel="Double Tap Gesture Recognizer">
+                <tapGestureRecognizer numberOfTapsRequired="2" id="dQv-sA-zk8" userLabel="Double Tap Gesture Recognizer">
                     <connections>
-                        <action selector="doubleTapOnMap:" destination="kCa-dn-7ZB" id="vhe-wE-hZ1"/>
-                        <outlet property="delegate" destination="kCa-dn-7ZB" id="MIM-Vw-YCk"/>
+                        <action selector="setLocationAndShowWeatherWithSender:" destination="kCa-dn-7ZB" id="IdD-mE-G21"/>
+                        <outlet property="delegate" destination="kCa-dn-7ZB" id="psH-e9-W2G"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

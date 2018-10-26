@@ -75,9 +75,11 @@ extension OpenWeatherAPI
         case failedToFetchData(Error)
     }
     
+    typealias CurrentWeatherResult = Result<CurrentWeather, CurrentWeatherError>
+    
     func currentWeather(
         for location: CLLocationCoordinate2D,
-        completion: @escaping (Result<CurrentWeather, CurrentWeatherError>) -> Void
+        _ completion: @escaping (CurrentWeatherResult) -> Void
         )
     {
         guard
@@ -140,50 +142,27 @@ extension OpenWeatherAPI
      */
     struct CurrentWeather: Decodable
     {
-        let name: String?
-        
-        var temperature: Int?
-        {
-            return main.temp.flatMap{ Int($0) }
-        }
-        
-        var summary: String?
-        {
-            return weather.first?.description
-        }
-        
-        var countryCode: String?
-        {
-            return sys.country
-        }
-        
-        //---
-        
-        private
         struct Sys: Decodable
         {
             let country: String?
         }
         
-        private
-        let sys: Sys
-        
-        private
         struct Weather: Decodable
         {
             let description: String?
         }
         
-        private
-        let weather: [Weather]
-        
-        private
         struct Main: Decodable
         {
             let temp: Float?
         }
         
-        private
+        //---
+        
+        let td: Date
+        let name: String?
+        let sys: Sys
+        let weather: [Weather]
         let main: Main
     }
 }

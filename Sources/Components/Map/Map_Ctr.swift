@@ -27,44 +27,44 @@ class Map_Ctr: BaseCtr
     private
     weak
     var map: MKMapView!
-    
-    @IBOutlet
-    private
-    weak
-    var doubleTap: UITapGestureRecognizer!
-    
-    // MARK: UI Actions
-    
-    @IBAction
-    private
-    func doubleTapOnMap(
-        _ sender: Any
-        )
-    {
-        setLocationAndShowWeather()
-    }
 }
 
-// MARK: - Gesture Recognizer Support
+// MARK: - Double Tap Handling
 
 extension Map_Ctr: UIGestureRecognizerDelegate
 {
     func gestureRecognizer(
-        _: UIGestureRecognizer,
-        shouldRecognizeSimultaneouslyWith _: UIGestureRecognizer
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
         ) -> Bool
     {
-        // assume it's the double tap with map's double tap
+        // here we expect that iOS asks us if we want our custom
+        // double tap gesture recognizer should be triggered
+        // simultaneously with map view built-in double tap recognizer,
+        // which is of type 'MKTwoFingerPanGestureRecognizer' (undocumented)
         return true
+    }
+
+    @IBAction
+    private
+    func setLocationAndShowWeather(
+        sender: UITapGestureRecognizer
+        )
+    {
+        guard sender.state == .recognized else { return }
+        
+        //---
+        
+        let screenLocation = sender.location(in: map)
+        let geoLocation = map.convert(screenLocation, toCoordinateFrom: map)
+        
+        app?.requestCurrentWeather(for: geoLocation)
     }
 }
 
 // MARK: - Commands
 
-extension Map_Ctr: MKMapViewDelegate
+extension Map_Ctr
 {
-    func setLocationAndShowWeather()
-    {
-        
-    }
+    //
 }
