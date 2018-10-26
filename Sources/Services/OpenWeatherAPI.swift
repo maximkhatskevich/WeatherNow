@@ -76,13 +76,60 @@ class OpenWeatherAPI
     }
 }
 
+// MARK: - Geenral
+
+extension OpenWeatherAPI
+{
+    enum PrepareQueryError: Error
+    {
+        case unableToConstructURLComponents
+        case unableToConstructFinalURL
+    }
+    
+    private
+    func prepareQuery(
+        path: String,
+        params: [(String, Any)]
+        ) throws -> URL
+    {
+        guard
+            var comps = URLComponents(
+                string: self.baseAddress.appendingPathComponent(path).absoluteString
+            )
+        else
+        {
+            throw PrepareQueryError.unableToConstructURLComponents
+        }
+        
+        //---
+        
+        comps.queryItems = params
+            .map{ URLQueryItem(name: $0.0, value: "\($0.1)") }
+            + [URLQueryItem(name: "appid", value: authKey)]
+        
+        //---
+        
+        guard
+            let result = comps.url
+        else
+        {
+            throw PrepareQueryError.unableToConstructFinalURL
+        }
+        
+        //---
+        
+        return result
+    }
+}
+
 // MARK: - Current Weather
 
 extension OpenWeatherAPI
 {
     enum CurrentWeatherError: Error
     {
-        case unableToConstructEndpoint
+        case unknownError(Error)
+        case unableToConstructEndpoint(PrepareQueryError)
         case failedToFetchData(Error)
         case failedToDecode(Error)
         case invalidRequest(RequestError)
@@ -95,13 +142,35 @@ extension OpenWeatherAPI
         _ completion: @escaping (CurrentWeatherResult) -> Void
         )
     {
-        guard
-            let endpoint = URL(string: "weather", relativeTo: self.baseAddress)
-        else
+        let endpoint: URL
+        
+        //---
+        
+        do
+        {
+            endpoint = try prepareQuery(
+                path: "weather",
+                params: [
+                    ("lat", location.latitude),
+                    ("lon", location.longitude)
+                ]
+            )
+        }
+        catch let error as PrepareQueryError
         {
             // to stay consistent, return async-ly on main
             // as we would do after network request
-            onMain{ completion(.error(CurrentWeatherError.unableToConstructEndpoint)) }
+            onMain{ completion(.error(CurrentWeatherError.unableToConstructEndpoint(error))) }
+            
+            //---
+            
+            return
+        }
+        catch
+        {
+            // to stay consistent, return async-ly on main
+            // as we would do after network request
+            onMain{ completion(.error(CurrentWeatherError.unknownError(error))) }
             
             //---
             
