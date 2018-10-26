@@ -22,6 +22,18 @@ class OpenWeatherAPI
         case invalidBaseAddress
     }
     
+    /**
+     Invalid request.
+     
+     Example:
+     {"cod":401, "message": "Invalid API key."}
+     */
+    struct RequestError: Decodable // NOT an Error, NOT supposed to be used directly as error
+    {
+        let cod: Int
+        let message: String
+    }
+    
     // MARK: Instance level members
     
     let baseAddress: URL
@@ -71,8 +83,9 @@ extension OpenWeatherAPI
     enum CurrentWeatherError: Error
     {
         case unableToConstructEndpoint
-        case failedToDecode(Error)
         case failedToFetchData(Error)
+        case failedToDecode(Error)
+        case invalidRequest(RequestError)
     }
     
     typealias CurrentWeatherResult = Result<CurrentWeather, CurrentWeatherError>
@@ -101,8 +114,8 @@ extension OpenWeatherAPI
             
             let rawResult: Data
             
-            do{
-                
+            do
+            {
                 rawResult = try Data(contentsOf: endpoint)
             }
             catch
@@ -116,10 +129,22 @@ extension OpenWeatherAPI
             
             //---
             
+            if
+                let requestError = try? JSONDecoder().decode(RequestError.self, from: rawResult)
+            {
+                self.onMain{ completion(.error(.invalidRequest(requestError))) }
+                
+                //---
+                
+                return
+            }
+            
+            //---
+            
             let result: CurrentWeather
             
-            do{
-                
+            do
+            {
                 result = try JSONDecoder().decode(CurrentWeather.self, from: rawResult)
             }
             catch

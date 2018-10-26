@@ -24,7 +24,7 @@ extension WeatherProvider
     enum CurrentWeatherError: Error
     {
         case providerUnavailable(Error)
-        case serverError(Error)
+        case serviceError(Error)
     }
     
     func requestCurrentWeather(
@@ -42,7 +42,7 @@ extension WeatherProvider
                 onSuccess(weather)
 
             case .error(let error):
-                onFauilure(.serverError(error))
+                onFauilure(.serviceError(error))
             }
         }
         
