@@ -49,16 +49,21 @@ class WeatherNowTests: XCTestCase
         //---
         do
         {
-            let info = try JSONDecoder()
+            let rawWeather = try JSONDecoder()
                 .decode(OpenWeatherAPI.CurrentWeather.self, from: rawInput)
+            
+            let weather = WeatherProvider
+                .CurrentWeather
+                .convertToSnapshot(rawWeather)
             
             //---
             
-            XCTAssertEqual(info.temperature, 289)
-            XCTAssertEqual(info.countryCode, "JP")
+            XCTAssertEqual(weather.temperature, 289)
+            XCTAssertEqual(weather.countryCode, "JP")
         }
         catch
         {
+            print(error)
             XCTFail("Failed to decode sample data.")
         }
     }

@@ -159,7 +159,7 @@ extension OpenWeatherAPI
         
         //---
         
-        let td: Date
+        let dt: Date
         let name: String?
         let sys: Sys
         let weather: [Weather]

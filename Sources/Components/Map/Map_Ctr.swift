@@ -19,7 +19,7 @@ extension Map
 //---
 
 final
-class Map_Ctr: BaseCtr
+class Map_Ctr: Root.BaseCtr
 {
     // MARK: UI Controls
     
@@ -58,7 +58,7 @@ extension Map_Ctr: UIGestureRecognizerDelegate
         let screenLocation = sender.location(in: map)
         let geoLocation = map.convert(screenLocation, toCoordinateFrom: map)
         
-        app?.requestCurrentWeather(for: geoLocation)
+        parentCoordinator?.requestCurrentWeather(for: geoLocation)
     }
 }
 

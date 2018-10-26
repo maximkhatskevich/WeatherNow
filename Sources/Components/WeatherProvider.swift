@@ -14,7 +14,7 @@ enum WeatherProvider
 {
     case unknown
     case ready(OpenWeatherAPI)
-    case unavailable(Error)
+    case unavailable(Error) // OpenWeatherAPI.InitializationError
 }
 
 // MARK: - Actions
@@ -33,23 +33,12 @@ extension WeatherProvider
         onFauilure: @escaping (CurrentWeatherError) -> Void
         )
     {
-        let convertToSnapshot: (OpenWeatherAPI.CurrentWeather) -> WeatherSnapshot = {
-            
-            WeatherSnapshot(
-                name: $0.name,
-                temperature: $0.main.temp.flatMap{ Int($0) },
-                summary: $0.weather.first?.description,
-                countryCode: $0.sys.country,
-                timestamp: $0.td
-            )
-        }
-        
         let processResponse: (OpenWeatherAPI.CurrentWeatherResult) -> Void = {
             
             switch $0
             {
             case .value(let rawWeather):
-                let weather = convertToSnapshot(rawWeather)
+                let weather = CurrentWeather.convertToSnapshot(rawWeather)
                 onSuccess(weather)
 
             case .error(let error):
@@ -69,6 +58,21 @@ extension WeatherProvider
             
         case .unknown:
             return
+        }
+    }
+    
+    enum CurrentWeather // scope
+    {
+        static
+        let convertToSnapshot: (OpenWeatherAPI.CurrentWeather) -> WeatherSnapshot = {
+            
+            WeatherSnapshot(
+                name: $0.name,
+                temperature: $0.main.temp.flatMap{ Int($0) },
+                summary: $0.weather.first?.description,
+                countryCode: $0.sys.country,
+                timestamp: $0.dt
+            )
         }
     }
 }

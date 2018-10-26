@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 //---
 
@@ -18,14 +19,124 @@ extension Root
 //---
 
 final
-class Root_Ctr: UINavigationController {}
+class Root_Ctr: UINavigationController
+{
+    // MARK: App specific - Services
+    
+    private(set)
+    var weatherProvider: WeatherProvider = .unknown
+    
+    // MARK: App specific - Data
+    
+    private(set)
+    var locationInfo: LocationInfo = .unknown
+    
+    // MARK: App specific - UI
+    
+    private
+    var mapCtr: Map.Ctr! // root VC is always there!
+    {
+        return viewControllers
+            .first
+            .flatMap{ $0 as? Map.Ctr }
+    }
+}
+
+// MARK: - Overrides
+
+extension Root_Ctr
+{
+    override
+    func viewDidLoad()
+    {
+        super.viewDidLoad()
+        
+        //---
+        
+        setup()
+    }
+}
 
 // MARK: - Commands
 
 extension Root_Ctr
 {
-    func showLocationInfo()
+    func setup()
     {
-        performSegue(withIdentifier: "ShowLocaionInfo", sender: nil)
+        do
+        {
+            let weatherService = try OpenWeatherAPI(
+                authKey: Config().openWeatherAuthKey
+            )
+            
+            //---
+            
+            weatherProvider = .ready(weatherService)
+        }
+        catch
+        {
+            weatherProvider = .unavailable(error)
+        }
+        
+        //---
+        
+        mapCtr?.bind(with: self)
+    }
+    
+    func requestCurrentWeather(
+        for location: CLLocationCoordinate2D
+        )
+    {
+        weatherProvider.requestCurrentWeather(
+            for: location,
+            onSuccess: onWeatherLoadingSuccess,
+            onFauilure: onWeatherLoadingFailure
+        )
+    }
+    
+//    func showLocationInfo()
+//    {
+//        performSegue(withIdentifier: "ShowLocaionInfo", sender: nil)
+//    }
+}
+
+// MARK: - Notifications
+
+extension Root_Ctr
+{
+    private
+    func onWeatherLoadingFailure(
+        for error: WeatherProvider.CurrentWeatherError
+        )
+    {
+        locationInfo = .failedToLoad(error)
+        
+        //---
+        
+        // update UI
+    }
+    
+    private
+    func onWeatherLoading(
+        for location: CLLocationCoordinate2D
+        )
+    {
+        locationInfo = .loading(location)
+        
+        //---
+        
+        // update UI
+    }
+    
+    private
+    func onWeatherLoadingSuccess(
+        weather: WeatherSnapshot
+        )
+    {
+        locationInfo = .ready(weather)
+        
+        //---
+        
+        // update UI
     }
 }

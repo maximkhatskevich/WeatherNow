@@ -18,7 +18,7 @@ extension LocationInfo
 //---
 
 final
-class LocationInfo_Ctr: BaseCtr
+class LocationInfo_Ctr: Root.BaseCtr
 {
     //
 }
