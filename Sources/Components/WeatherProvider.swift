@@ -51,7 +51,7 @@ extension WeatherProvider
         switch self
         {
         case .ready(let service):
-            service.currentWeather(for: location, processResponse)
+            processResponse(service.currentWeather(for: location))
             
         case .unavailable(let error):
             onFauilure(.providerUnavailable(error))

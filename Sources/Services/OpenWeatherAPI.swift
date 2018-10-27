@@ -133,9 +133,8 @@ extension OpenWeatherAPI
     typealias CurrentWeatherResult = Result<CurrentWeather, CurrentWeatherError>
     
     func currentWeather(
-        for location: CLLocationCoordinate2D,
-        _ completion: @escaping (CurrentWeatherResult) -> Void
-        )
+        for location: CLLocationCoordinate2D
+        ) -> CurrentWeatherResult
     {
         let endpoint: URL
         
@@ -153,77 +152,50 @@ extension OpenWeatherAPI
         }
         catch let error as PrepareQueryError
         {
-            // to stay consistent, return async-ly on main
-            // as we would do after network request
-            Do.onMain{ completion(.error(CurrentWeatherError.unableToConstructEndpoint(error))) }
-            
-            //---
-            
-            return
+            return .error(CurrentWeatherError.unableToConstructEndpoint(error))
         }
         catch
         {
-            // to stay consistent, return async-ly on main
-            // as we would do after network request
-            Do.onMain{ completion(.error(CurrentWeatherError.unknownError(error))) }
-            
-            //---
-            
-            return
+            return .error(CurrentWeatherError.unknownError(error))
         }
         
         //---
         
-        Do.async{
-            
-            let rawResult: Data
-            
-            do
-            {
-                rawResult = try Data(contentsOf: endpoint)
-            }
-            catch
-            {
-                Do.onMain{ completion(.error(.failedToFetchData(error))) }
-                
-                //---
-                
-                return
-            }
-            
-            //---
-            
-            if
-                let requestError = try? JSONDecoder().decode(RequestError.self, from: rawResult)
-            {
-                Do.onMain{ completion(.error(.invalidRequest(requestError))) }
-                
-                //---
-                
-                return
-            }
-            
-            //---
-            
-            let result: CurrentWeather
-            
-            do
-            {
-                result = try JSONDecoder().decode(CurrentWeather.self, from: rawResult)
-            }
-            catch
-            {
-                Do.onMain{ completion(.error(.failedToDecode(error))) }
-                
-                //---
-                
-                return
-            }
-            
-            //---
-            
-            Do.onMain{ completion(.value(result)) }
+        let rawResult: Data
+        
+        do
+        {
+            rawResult = try Data(contentsOf: endpoint)
         }
+        catch
+        {
+            return .error(.failedToFetchData(error))
+        }
+        
+        //---
+        
+        if
+            let requestError = try? JSONDecoder().decode(RequestError.self, from: rawResult)
+        {
+            return .error(.invalidRequest(requestError))
+        }
+        
+        //---
+        
+        let result: CurrentWeather
+        
+        do
+        {
+            result = try JSONDecoder().decode(CurrentWeather.self, from: rawResult)
+        }
+        catch
+        {
+            return .error(.failedToDecode(error))
+        }
+        
+        //---
+        
+        return .value(result)
     }
     
     /**
