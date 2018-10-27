@@ -14,7 +14,7 @@ enum WeatherProvider
 {
     case unknown
     case ready(OpenWeatherAPI)
-    case unavailable(Error) // OpenWeatherAPI.InitializationError
+    case unavailable(OpenWeatherAPI.InitializationError)
 }
 
 // MARK: - Actions

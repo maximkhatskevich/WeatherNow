@@ -16,12 +16,6 @@ class OpenWeatherAPI
 {
     // MARK: Type level members
     
-    enum InitializationError: Error
-    {
-        case invalidAuthKey
-        case invalidBaseAddress
-    }
-    
     /**
      Invalid request.
      
@@ -42,17 +36,42 @@ class OpenWeatherAPI
     
     // MARK: Initializers
     
+    /**
+     PRIVATE on purpose, use 'initialize' instead!
+     */
+    private
     init(
-        authKey: String?,
+        _ authKey: String,
+        _ baseAddress: URL
+        )
+    {
+        self.authKey = authKey
+        self.baseAddress = baseAddress
+    }
+}
+
+// MARK: - Initialization
+
+extension OpenWeatherAPI
+{
+    enum InitializationError: Error
+    {
+        case emptyAuthKey
+        case invalidBaseAddress
+    }
+    
+    static
+    func initialize(
+        with authKey: String?,
         baseAddress: String = "https://api.openweathermap.org/data/2.5/"
-        ) throws
+        ) -> Result<OpenWeatherAPI, InitializationError>
     {
         guard
             let authKey = authKey,
             authKey.count > 0
         else
         {
-            throw InitializationError.invalidAuthKey
+            return .error(InitializationError.emptyAuthKey)
         }
         
         //---
@@ -61,17 +80,16 @@ class OpenWeatherAPI
             let baseAddress = URL(string: baseAddress)
         else
         {
-            throw InitializationError.invalidBaseAddress
+            return .error(InitializationError.invalidBaseAddress)
         }
         
         //---
         
-        self.authKey = authKey
-        self.baseAddress = baseAddress
+        return .value(.init(authKey, baseAddress))
     }
 }
 
-// MARK: - Geenral
+// MARK: - Query Preparation
 
 extension OpenWeatherAPI
 {

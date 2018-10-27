@@ -63,18 +63,12 @@ extension Root_Ctr
 {
     func setup()
     {
-        do
+        switch OpenWeatherAPI.initialize(with: Config().openWeatherAuthKey)
         {
-            let weatherService = try OpenWeatherAPI(
-                authKey: Config().openWeatherAuthKey
-            )
-            
-            //---
-            
+        case .value(let weatherService):
             weatherProvider = .ready(weatherService)
-        }
-        catch
-        {
+            
+        case .error(let error):
             weatherProvider = .unavailable(error)
         }
         
