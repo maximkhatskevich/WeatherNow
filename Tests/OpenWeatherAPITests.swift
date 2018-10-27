@@ -11,7 +11,9 @@ import XCTest
 @testable
 import WeatherNow
 
-class WeatherNowTests: XCTestCase
+//---
+
+class OpenWeatherAPITests: XCTestCase
 {
     func testCurrentWeatherDecoding()
     {
@@ -70,5 +72,61 @@ class WeatherNowTests: XCTestCase
         
         XCTAssertEqual(weather.temperature, 289)
         XCTAssertEqual(weather.countryCode, "JP")
+    }
+    
+    func testInitialization()
+    {
+        switch OpenWeatherAPI.initialize(with: nil)
+        {
+        case .error(.emptyAuthKey):
+            break
+            
+        default:
+            XCTFail("Didn't get expected error for 'nil' auth key.")
+        }
+        
+        //---
+        
+        switch OpenWeatherAPI.initialize(with: "")
+        {
+        case .error(.emptyAuthKey):
+            break
+            
+        default:
+            XCTFail("Didn't get expected error for empty (length == 0) auth key.")
+        }
+        
+        //---
+        
+        switch OpenWeatherAPI.initialize(with: "sOmeN0n3EmpT7K3Y")
+        {
+        case .value(_):
+            break
+            
+        default:
+            XCTFail("Didn't get expected value for NON-empty empty string auth key.")
+        }
+        
+        //---
+        
+        switch OpenWeatherAPI.initialize(with: "sOmeN0n3EmpT7K3Y", baseAddress: "wR0nG# URL")
+        {
+        case .error(.invalidBaseAddress):
+            break
+            
+        default:
+            XCTFail("Didn't get expected error for INVALID base address.")
+        }
+        
+        //---
+        
+        switch OpenWeatherAPI.initialize(with: "sOmeN0n3EmpT7K3Y", baseAddress: "http://ok.com")
+        {
+        case .value(_):
+            break
+            
+        default:
+            XCTFail("Didn't get expected value for valid base address.")
+        }
     }
 }
