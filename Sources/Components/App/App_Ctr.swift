@@ -1,5 +1,5 @@
 //
-//  App.swift
+//  App_Ctr.swift
 //  WeatherNow
 //
 //  Created by Maxim Khatskevich on 10/25/18.
