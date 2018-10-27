@@ -39,32 +39,36 @@ class WeatherNowTests: XCTestCase
             let rawInput = sourceInfo.data(using: .utf8)
         else
         {
-            XCTFail("Failed to prepare sample data")
-            
-            //---
-            
-            return
+            return XCTFail("Failed to prepare sample data")
         }
         
         //---
+        
+        let rawWeather: OpenWeatherAPI.CurrentWeather
+        
         do
         {
-            let rawWeather = try JSONDecoder()
+            rawWeather = try JSONDecoder()
                 .decode(OpenWeatherAPI.CurrentWeather.self, from: rawInput)
-            
-            let weather = WeatherProvider
-                .CurrentWeather
-                .convertToSnapshot(rawWeather)
-            
-            //---
-            
-            XCTAssertEqual(weather.temperature, 289)
-            XCTAssertEqual(weather.countryCode, "JP")
         }
         catch
         {
             print(error)
-            XCTFail("Failed to decode sample data.")
+            
+            //---
+            
+            return XCTFail("Failed to decode sample data.")
         }
+        
+        //---
+        
+        let weather = WeatherProvider
+            .CurrentWeather
+            .convertToSnapshot(rawWeather)
+        
+        //---
+        
+        XCTAssertEqual(weather.temperature, 289)
+        XCTAssertEqual(weather.countryCode, "JP")
     }
 }
