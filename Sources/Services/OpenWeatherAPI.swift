@@ -40,15 +40,11 @@ class OpenWeatherAPI
     
     let authKey: String // API key
     
-    private
-    let queue: DispatchQueue
-    
     // MARK: Initializers
     
     init(
         authKey: String?,
-        baseAddress: String = "https://api.openweathermap.org/data/2.5/",
-        queue: DispatchQueue = .global(qos: .background)
+        baseAddress: String = "https://api.openweathermap.org/data/2.5/"
         ) throws
     {
         guard
@@ -71,7 +67,6 @@ class OpenWeatherAPI
         //---
         
         self.authKey = authKey
-        self.queue = queue
         self.baseAddress = baseAddress
     }
 }
@@ -160,7 +155,7 @@ extension OpenWeatherAPI
         {
             // to stay consistent, return async-ly on main
             // as we would do after network request
-            onMain{ completion(.error(CurrentWeatherError.unableToConstructEndpoint(error))) }
+            Do.onMain{ completion(.error(CurrentWeatherError.unableToConstructEndpoint(error))) }
             
             //---
             
@@ -170,7 +165,7 @@ extension OpenWeatherAPI
         {
             // to stay consistent, return async-ly on main
             // as we would do after network request
-            onMain{ completion(.error(CurrentWeatherError.unknownError(error))) }
+            Do.onMain{ completion(.error(CurrentWeatherError.unknownError(error))) }
             
             //---
             
@@ -179,7 +174,7 @@ extension OpenWeatherAPI
         
         //---
         
-        onBg{
+        Do.async{
             
             let rawResult: Data
             
@@ -189,7 +184,7 @@ extension OpenWeatherAPI
             }
             catch
             {
-                self.onMain{ completion(.error(.failedToFetchData(error))) }
+                Do.onMain{ completion(.error(.failedToFetchData(error))) }
                 
                 //---
                 
@@ -201,7 +196,7 @@ extension OpenWeatherAPI
             if
                 let requestError = try? JSONDecoder().decode(RequestError.self, from: rawResult)
             {
-                self.onMain{ completion(.error(.invalidRequest(requestError))) }
+                Do.onMain{ completion(.error(.invalidRequest(requestError))) }
                 
                 //---
                 
@@ -218,7 +213,7 @@ extension OpenWeatherAPI
             }
             catch
             {
-                self.onMain{ completion(.error(.failedToDecode(error))) }
+                Do.onMain{ completion(.error(.failedToDecode(error))) }
                 
                 //---
                 
@@ -227,7 +222,7 @@ extension OpenWeatherAPI
             
             //---
             
-            self.onMain{ completion(.value(result)) }
+            Do.onMain{ completion(.value(result)) }
         }
     }
     
@@ -258,25 +253,5 @@ extension OpenWeatherAPI
         let sys: Sys
         let weather: [Weather]
         let main: Main
-    }
-}
-
-// MARK: - Internal Helpers
-
-private
-extension OpenWeatherAPI
-{
-    func onBg(
-        _ asyncOperation: @escaping () -> Void
-        )
-    {
-        queue.async(execute: asyncOperation)
-    }
-    
-    func onMain(
-        _ mainQueueOperation: @escaping () -> Void
-        )
-    {
-        DispatchQueue.main.async(execute: mainQueueOperation)
     }
 }
