@@ -78,7 +78,17 @@ extension WeatherProvider
         switch self
         {
         case .ready(let service):
-            processResponse(service.currentWeather(for: location))
+            Do.async{
+                
+                let result = service.currentWeather(for: location)
+                
+                //---
+                
+                Do.onMain{
+                    
+                    processResponse(result)
+                }
+            }
             
         case .unavailable(let error):
             onFauilure(.providerUnavailable(error))
