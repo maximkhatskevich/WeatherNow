@@ -74,11 +74,26 @@ extension Root_Ctr
         for location: CLLocationCoordinate2D
         )
     {
-        weatherProvider.requestCurrentWeather(
-            for: location,
-            onSuccess: onWeatherLoadingSuccess,
-            onFauilure: onWeatherLoadingFailure
-        )
+        Do.async{
+            
+            let result = self.weatherProvider.requestCurrentWeather(
+                for: location
+            )
+            
+            //---
+            
+            Do.onMain{
+                
+                switch result
+                {
+                case .value(let weather):
+                    self.onWeatherLoadingSuccess(weather)
+                    
+                case .error(let error):
+                    self.onWeatherLoadingFailure(error)
+                }
+            }
+        }
     }
     
 //    func showLocationInfo()
@@ -93,7 +108,7 @@ extension Root_Ctr
 {
     private
     func onWeatherLoadingFailure(
-        for error: WeatherProvider.CurrentWeatherError
+        _ error: WeatherProvider.CurrentWeatherError
         )
     {
         locationInfo = .failedToLoad(error)
@@ -117,7 +132,7 @@ extension Root_Ctr
     
     private
     func onWeatherLoadingSuccess(
-        weather: WeatherSnapshot
+        _ weather: WeatherSnapshot
         )
     {
         locationInfo = .ready(weather)

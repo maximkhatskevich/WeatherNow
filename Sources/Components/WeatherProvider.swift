@@ -50,26 +50,25 @@ extension WeatherProvider
 {
     enum CurrentWeatherError: Error
     {
-        case providerUnavailable(Error)
+        case providerUnavailable(OpenWeatherAPI.InitializationError)
         case serviceError(Error)
     }
     
+    typealias CurrentWeatherResult = Result<WeatherSnapshot, CurrentWeatherError>
+    
     func requestCurrentWeather(
-        for location: CLLocationCoordinate2D,
-        onSuccess: @escaping (WeatherSnapshot) -> Void,
-        onFauilure: @escaping (CurrentWeatherError) -> Void
-        )
+        for location: CLLocationCoordinate2D
+        ) -> CurrentWeatherResult
     {
-        let processResponse: (OpenWeatherAPI.CurrentWeatherResult) -> Void = {
+        let processResponse: (OpenWeatherAPI.CurrentWeatherResult) -> CurrentWeatherResult = {
             
             switch $0
             {
             case .value(let rawWeather):
-                let weather = CurrentWeather.convertToSnapshot(rawWeather)
-                onSuccess(weather)
+                return .value(CurrentWeather.convertToSnapshot(rawWeather))
 
             case .error(let error):
-                onFauilure(.serviceError(error))
+                return .error(.serviceError(error))
             }
         }
         
@@ -78,20 +77,14 @@ extension WeatherProvider
         switch self
         {
         case .ready(let service):
-            Do.async{
-                
-                let result = service.currentWeather(for: location)
-                
-                //---
-                
-                Do.onMain{
-                    
-                    processResponse(result)
-                }
-            }
+            return processResponse(
+                service.currentWeather(
+                    for: location
+                )
+            )
             
         case .unavailable(let error):
-            onFauilure(.providerUnavailable(error))
+            return .error(.providerUnavailable(error))
         }
     }
     
