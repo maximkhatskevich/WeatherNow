@@ -85,10 +85,10 @@
 		94C71A8B218228C3004F9FA3 = {
 			isa = PBXGroup;
 			children = (
+				94C71A95218228C3004F9FA3 /* Products */,
 				94C71ABA218229D3004F9FA3 /* Resources */,
 				94C71ACA21822B46004F9FA3 /* Sources */,
 				94C71ACF21822B55004F9FA3 /* Tests */,
-				94C71A95218228C3004F9FA3 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,9 +104,9 @@
 		94C71ABA218229D3004F9FA3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				94C71ABF218229D3004F9FA3 /* WeatherNow.xcassets */,
 				94C71AC621822A00004F9FA3 /* Launch Screen.storyboard */,
 				94C71AC821822A1A004F9FA3 /* Main.storyboard */,
+				94C71ABF218229D3004F9FA3 /* WeatherNow.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -115,10 +115,10 @@
 			isa = PBXGroup;
 			children = (
 				94C71B022184E2BB004F9FA3 /* AppDelegate.swift */,
-				94C71AF321828F83004F9FA3 /* Entities */,
 				94C71ADD21824B3C004F9FA3 /* Components */,
-				94C71AD521822D52004F9FA3 /* Services */,
+				94C71AF321828F83004F9FA3 /* Entities */,
 				94C71ADA2182411C004F9FA3 /* Helpers */,
+				94C71AD521822D52004F9FA3 /* Services */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -153,10 +153,10 @@
 			isa = PBXGroup;
 			children = (
 				94C71AFF2184E282004F9FA3 /* App */,
-				94C71ADE21824B60004F9FA3 /* WeatherProvider.swift */,
-				94C71AEE2182568E004F9FA3 /* Root */,
-				94C71AE021824E53004F9FA3 /* Map */,
 				94C71AE521825486004F9FA3 /* LocationInfo */,
+				94C71AE021824E53004F9FA3 /* Map */,
+				94C71AEE2182568E004F9FA3 /* Root */,
+				94C71ADE21824B60004F9FA3 /* WeatherProvider.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -183,8 +183,8 @@
 			isa = PBXGroup;
 			children = (
 				94C71AEF21825698004F9FA3 /* Root.swift */,
-				94C71AEC21825664004F9FA3 /* Root_Ctr.swift */,
 				94C71AF92182A4B5004F9FA3 /* Root_BaseCtr.swift */,
+				94C71AEC21825664004F9FA3 /* Root_Ctr.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -287,8 +287,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94C71AC921822A1A004F9FA3 /* Main.storyboard in Resources */,
 				94C71AC721822A00004F9FA3 /* Launch Screen.storyboard in Resources */,
+				94C71AC921822A1A004F9FA3 /* Main.storyboard in Resources */,
 				94C71AC4218229D3004F9FA3 /* WeatherNow.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,22 +307,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94C71AFA2182A4B5004F9FA3 /* Root_BaseCtr.swift in Sources */,
-				94C71AD721822D96004F9FA3 /* OpenWeatherAPI.swift in Sources */,
-				94C71ADF21824B60004F9FA3 /* WeatherProvider.swift in Sources */,
 				94C71B012184E28B004F9FA3 /* App.swift in Sources */,
-				94C71ADC21824129004F9FA3 /* Result.swift in Sources */,
+				94C71AD421822BF1004F9FA3 /* App_Ctr.swift in Sources */,
+				94C71B032184E2BB004F9FA3 /* AppDelegate.swift in Sources */,
+				94C71AD92182348A004F9FA3 /* BundleInfo.swift in Sources */,
+				94C71AFC21849E14004F9FA3 /* Do.swift in Sources */,
 				94C71AE721825496004F9FA3 /* LocationInfo.swift in Sources */,
 				94C71AE9218254AD004F9FA3 /* LocationInfo_Ctr.swift in Sources */,
 				94C71AE221824E5E004F9FA3 /* Map.swift in Sources */,
-				94C71B032184E2BB004F9FA3 /* AppDelegate.swift in Sources */,
-				94C71AED21825664004F9FA3 /* Root_Ctr.swift in Sources */,
-				94C71AF021825698004F9FA3 /* Root.swift in Sources */,
-				94C71AD92182348A004F9FA3 /* BundleInfo.swift in Sources */,
 				94C71AE421824E7A004F9FA3 /* Map_Ctr.swift in Sources */,
+				94C71AD721822D96004F9FA3 /* OpenWeatherAPI.swift in Sources */,
+				94C71ADC21824129004F9FA3 /* Result.swift in Sources */,
+				94C71AF021825698004F9FA3 /* Root.swift in Sources */,
+				94C71AFA2182A4B5004F9FA3 /* Root_BaseCtr.swift in Sources */,
+				94C71AED21825664004F9FA3 /* Root_Ctr.swift in Sources */,
+				94C71ADF21824B60004F9FA3 /* WeatherProvider.swift in Sources */,
 				94C71AF5218290B4004F9FA3 /* WeatherSnapshot.swift in Sources */,
-				94C71AFC21849E14004F9FA3 /* Do.swift in Sources */,
-				94C71AD421822BF1004F9FA3 /* App_Ctr.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
