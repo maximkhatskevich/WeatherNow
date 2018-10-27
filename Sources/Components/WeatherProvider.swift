@@ -6,17 +6,28 @@
 //  Copyright © 2018 Maxim Khatskevich. All rights reserved.
 //
 
+import Foundation
 import CoreLocation
 
 //---
 
 enum WeatherProvider
 {
-    case unknown
     case ready(OpenWeatherAPI)
     case unavailable(OpenWeatherAPI.InitializationError)
     
     // MARK: Initializers
+    
+    init(
+        with bundle: Bundle = .main
+        )
+    {
+        let bundleInfo = BundleInfo(for: bundle)
+        
+        //---
+        
+        self = type(of: self).init(with: bundleInfo.weatherAuthKey)
+    }
     
     init(
         with weatherAPIKey: String?
@@ -71,9 +82,6 @@ extension WeatherProvider
             
         case .unavailable(let error):
             onFauilure(.providerUnavailable(error))
-            
-        case .unknown:
-            return
         }
     }
     

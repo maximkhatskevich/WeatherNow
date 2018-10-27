@@ -23,8 +23,8 @@ class Root_Ctr: UINavigationController
 {
     // MARK: App specific - Services
     
-    private(set)
-    var weatherProvider: WeatherProvider = .unknown
+    lazy
+    var weatherProvider: WeatherProvider = .init()
     
     // MARK: App specific - Data
     
@@ -63,9 +63,9 @@ extension Root_Ctr
 {
     func setup()
     {
-        weatherProvider = .init(with: BundleInfo().weatherAuthKey)
+        // setup components here...
         
-        //---
+        //--- bindings
         
         mapCtr?.bind(with: self)
     }
