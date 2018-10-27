@@ -101,11 +101,13 @@ extension OpenWeatherAPI
         case unableToConstructFinalURL
     }
     
+    typealias PrepareQueryResult = Result<URL, PrepareQueryError>
+    
     private
     func prepareQuery(
         path: String,
         params: [(String, Any)]
-        ) throws -> URL
+        ) -> PrepareQueryResult
     {
         guard
             var comps = URLComponents(
@@ -113,7 +115,7 @@ extension OpenWeatherAPI
             )
         else
         {
-            throw PrepareQueryError.unableToConstructURLComponents
+            return .error(PrepareQueryError.unableToConstructURLComponents)
         }
         
         //---
@@ -128,12 +130,12 @@ extension OpenWeatherAPI
             let result = comps.url
         else
         {
-            throw PrepareQueryError.unableToConstructFinalURL
+            return .error(PrepareQueryError.unableToConstructFinalURL)
         }
         
         //---
         
-        return result
+        return .value(result)
     }
 }
 
@@ -143,7 +145,6 @@ extension OpenWeatherAPI
 {
     enum CurrentWeatherError: Error
     {
-        case unknownError(Error)
         case unableToConstructEndpoint(PrepareQueryError)
         case failedToFetchData(Error)
         case failedToDecode(Error)
@@ -156,27 +157,18 @@ extension OpenWeatherAPI
         for location: CLLocationCoordinate2D
         ) -> CurrentWeatherResult
     {
-        let endpoint: URL
+        let query: URL
         
-        //---
-        
-        do
-        {
-            endpoint = try prepareQuery(
-                path: "weather",
-                params: [
-                    ("lat", location.latitude),
-                    ("lon", location.longitude)
-                ]
+        switch prepareQuery(
+            path: "weather",
+            params: [("lat", location.latitude), ("lon", location.longitude)]
             )
-        }
-        catch let error as PrepareQueryError
         {
+        case .value(let result):
+            query = result
+            
+        case .error(let error):
             return .error(CurrentWeatherError.unableToConstructEndpoint(error))
-        }
-        catch
-        {
-            return .error(CurrentWeatherError.unknownError(error))
         }
         
         //---
@@ -185,7 +177,7 @@ extension OpenWeatherAPI
         
         do
         {
-            rawResult = try Data(contentsOf: endpoint)
+            rawResult = try Data(contentsOf: query)
         }
         catch
         {
@@ -194,8 +186,13 @@ extension OpenWeatherAPI
         
         //---
         
+        // NOTE: before attempt to decode proper data,
+        // check if we will be able to decode a request-specific error
+        
         if
-            let requestError = try? JSONDecoder().decode(RequestError.self, from: rawResult)
+            let requestError = try? JSONDecoder()
+                .decode(RequestError.self, from: rawResult),
+            requestError.cod != 200 // proper response has 'cod' property equal 200
         {
             return .error(.invalidRequest(requestError))
         }
