@@ -63,7 +63,7 @@ extension Root_Ctr
 {
     func setup()
     {
-        weatherProvider = .init(with: Config().weatherAuthKey)
+        weatherProvider = .init(with: BundleInfo().weatherAuthKey)
         
         //---
         

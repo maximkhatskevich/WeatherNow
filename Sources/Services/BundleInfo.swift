@@ -14,7 +14,7 @@ import Foundation
  Wrapper for dealing with info plist.
  */
 final
-class Config
+class BundleInfo
 {
     private
     let bundle: Bundle
@@ -31,10 +31,10 @@ class Config
 
 // MARK: - App Specific Properties
 
-extension Config
+extension BundleInfo
 {
-    var openWeatherAuthKey: String?
+    var weatherAuthKey: String?
     {
-        return bundle.infoDictionary?["OpenWeatherMapAPIKey"] as? String
+        return bundle.infoDictionary?["WeatherServiceAPIKey"] as? String
     }
 }
