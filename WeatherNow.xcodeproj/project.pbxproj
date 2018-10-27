@@ -130,7 +130,6 @@
 		94C71AD521822D52004F9FA3 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				94C71AFB21849E14004F9FA3 /* Do.swift */,
 				94C71AD82182348A004F9FA3 /* BundleInfo.swift */,
 				94C71AD621822D96004F9FA3 /* OpenWeatherAPI.swift */,
 			);
@@ -140,6 +139,7 @@
 		94C71ADA2182411C004F9FA3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				94C71AFB21849E14004F9FA3 /* Do.swift */,
 				94C71ADB21824129004F9FA3 /* Result.swift */,
 			);
 			path = Helpers;
