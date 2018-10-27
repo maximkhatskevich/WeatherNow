@@ -60,11 +60,13 @@ extension OpenWeatherAPI
         case invalidBaseAddress
     }
     
+    typealias InitializationResult = Result<OpenWeatherAPI, InitializationError>
+    
     static
     func initialize(
         with authKey: String?,
         baseAddress: String = "https://api.openweathermap.org/data/2.5/"
-        ) -> Result<OpenWeatherAPI, InitializationError>
+        ) -> InitializationResult
     {
         guard
             let authKey = authKey,

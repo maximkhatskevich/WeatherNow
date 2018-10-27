@@ -15,6 +15,22 @@ enum WeatherProvider
     case unknown
     case ready(OpenWeatherAPI)
     case unavailable(OpenWeatherAPI.InitializationError)
+    
+    // MARK: Initializers
+    
+    init(
+        with weatherAPIKey: String?
+        )
+    {
+        switch OpenWeatherAPI.initialize(with: weatherAPIKey)
+        {
+        case .value(let weatherService):
+            self = .ready(weatherService)
+            
+        case .error(let error):
+            self = .unavailable(error)
+        }
+    }
 }
 
 // MARK: - Actions
