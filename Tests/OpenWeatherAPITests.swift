@@ -15,6 +15,112 @@ import WeatherNow
 
 class OpenWeatherAPITests: XCTestCase
 {
+    func testInitialization()
+    {
+        switch OpenWeatherAPI.initialize(with: nil)
+        {
+        case .error(.emptyAuthKey):
+            break
+            
+        default:
+            XCTFail("Didn't get expected error for 'nil' auth key.")
+        }
+        
+        //---
+        
+        switch OpenWeatherAPI.initialize(with: "")
+        {
+        case .error(.emptyAuthKey):
+            break
+            
+        default:
+            XCTFail("Didn't get expected error for empty (length == 0) auth key.")
+        }
+        
+        //---
+        
+        switch OpenWeatherAPI.initialize(with: "NonEmptyKey")
+        {
+        case .value(let service):
+            XCTAssertEqual(service.authKey, "NonEmptyKey")
+            
+        default:
+            XCTFail("Didn't get expected value for NON-empty empty string auth key.")
+        }
+        
+        //---
+        
+        switch OpenWeatherAPI.initialize(with: "NonEmptyKey", baseAddress: "wR0nG# URL")
+        {
+        case .error(.invalidBaseAddress):
+            break
+            
+        default:
+            XCTFail("Didn't get expected error for INVALID base address.")
+        }
+        
+        //---
+        
+        switch OpenWeatherAPI.initialize(with: "NonEmptyKey", baseAddress: "http://ok.com")
+        {
+        case .value(let service):
+            XCTAssertEqual(service.baseAddress.absoluteString, "http://ok.com")
+            
+        default:
+            XCTFail("Didn't get expected value for valid base address.")
+        }
+    }
+
+    func testQueryPreparation()
+    {
+        guard
+            case .value(let service) = OpenWeatherAPI
+                .initialize(with: "NonEmptyKey", baseAddress: "http://ok.com")
+        else
+        {
+            return XCTFail("Didn't expect to fail!")
+        }
+        
+        //---
+        
+        switch service.prepareQuery(
+            path: "weather", // OK
+            params: [("lat", 37.947), ("lon", -122.953)] // OK
+            )
+        {
+        case .value(let query): // OK
+            XCTAssertEqual(
+                query.absoluteString,
+                "http://ok.com/weather?lat=37.947&lon=-122.953&appid=NonEmptyKey"
+            )
+            
+        default:
+            return XCTFail("Didn't expect to fail prepare query with valid params!")
+        }
+    }
+
+    func testRequestErrorDecoding()
+    {
+        let validRequestError = """
+            {"cod":401,
+            "message":"Invalid API key."}
+            """
+            .data(using: .utf8)!
+        
+        XCTAssertNotNil(OpenWeatherAPI.checkForRequestError(validRequestError))
+        
+        //---
+        
+        let invalidRequestError = """
+            {"cod":200,
+            "message":"Invalid API key."}
+            """
+            .data(using: .utf8)!
+        
+        XCTAssertNil(OpenWeatherAPI.checkForRequestError(invalidRequestError))
+        
+    }
+    
     func testCurrentWeatherDecoding()
     {
         /**
@@ -41,17 +147,16 @@ class OpenWeatherAPITests: XCTestCase
             let rawInput = sourceInfo.data(using: .utf8)
         else
         {
-            return XCTFail("Failed to prepare sample data")
+            return XCTFail("Failed to prepare sample data.")
         }
         
         //---
         
-        let rawWeather: OpenWeatherAPI.CurrentWeather
+        let rawWeather: OpenWeatherAPI.CurrentWeather.Snapshot
         
         do
         {
-            rawWeather = try JSONDecoder()
-                .decode(OpenWeatherAPI.CurrentWeather.self, from: rawInput)
+            rawWeather = try OpenWeatherAPI.decodeResponsePayload(rawInput)
         }
         catch
         {
@@ -64,69 +169,16 @@ class OpenWeatherAPITests: XCTestCase
         
         //---
         
-        let weather = WeatherProvider
-            .CurrentWeather
-            .convertToSnapshot(rawWeather)
+        XCTAssertEqual(rawWeather.main.temp, 289.5)
+        XCTAssertEqual(rawWeather.sys.country, "JP")
+        
+        //---
+        
+        let weather: WeatherSnapshot = WeatherProvider.convert(rawWeather)
         
         //---
         
         XCTAssertEqual(weather.temperature, 289)
         XCTAssertEqual(weather.countryCode, "JP")
-    }
-    
-    func testInitialization()
-    {
-        switch OpenWeatherAPI.initialize(with: nil)
-        {
-        case .error(.emptyAuthKey):
-            break
-            
-        default:
-            XCTFail("Didn't get expected error for 'nil' auth key.")
-        }
-        
-        //---
-        
-        switch OpenWeatherAPI.initialize(with: "")
-        {
-        case .error(.emptyAuthKey):
-            break
-            
-        default:
-            XCTFail("Didn't get expected error for empty (length == 0) auth key.")
-        }
-        
-        //---
-        
-        switch OpenWeatherAPI.initialize(with: "sOmeN0n3EmpT7K3Y")
-        {
-        case .value(_):
-            break
-            
-        default:
-            XCTFail("Didn't get expected value for NON-empty empty string auth key.")
-        }
-        
-        //---
-        
-        switch OpenWeatherAPI.initialize(with: "sOmeN0n3EmpT7K3Y", baseAddress: "wR0nG# URL")
-        {
-        case .error(.invalidBaseAddress):
-            break
-            
-        default:
-            XCTFail("Didn't get expected error for INVALID base address.")
-        }
-        
-        //---
-        
-        switch OpenWeatherAPI.initialize(with: "sOmeN0n3EmpT7K3Y", baseAddress: "http://ok.com")
-        {
-        case .value(_):
-            break
-            
-        default:
-            XCTFail("Didn't get expected value for valid base address.")
-        }
     }
 }
