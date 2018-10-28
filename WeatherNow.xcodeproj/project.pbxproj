@@ -27,6 +27,7 @@
 		94C71AFC21849E14004F9FA3 /* Do.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71AFB21849E14004F9FA3 /* Do.swift */; };
 		94C71B012184E28B004F9FA3 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71B002184E28B004F9FA3 /* App.swift */; };
 		94C71B032184E2BB004F9FA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71B022184E2BB004F9FA3 /* AppDelegate.swift */; };
+		94C71B0821852FE1004F9FA3 /* OpenWeatherAPI_CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71B0721852FE1004F9FA3 /* OpenWeatherAPI_CurrentWeather.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		94C71AFB21849E14004F9FA3 /* Do.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Do.swift; sourceTree = "<group>"; };
 		94C71B002184E28B004F9FA3 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		94C71B022184E2BB004F9FA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		94C71B0721852FE1004F9FA3 /* OpenWeatherAPI_CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherAPI_CurrentWeather.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				94C71AD82182348A004F9FA3 /* BundleInfo.swift */,
-				94C71AD621822D96004F9FA3 /* OpenWeatherAPI.swift */,
+				94C71B0621852FC5004F9FA3 /* OpenWeatherAPI */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -204,6 +206,15 @@
 				94C71AD321822BF1004F9FA3 /* App_Ctr.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		94C71B0621852FC5004F9FA3 /* OpenWeatherAPI */ = {
+			isa = PBXGroup;
+			children = (
+				94C71AD621822D96004F9FA3 /* OpenWeatherAPI.swift */,
+				94C71B0721852FE1004F9FA3 /* OpenWeatherAPI_CurrentWeather.swift */,
+			);
+			path = OpenWeatherAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,6 +329,7 @@
 				94C71AE421824E7A004F9FA3 /* Map_Ctr.swift in Sources */,
 				94C71AD721822D96004F9FA3 /* OpenWeatherAPI.swift in Sources */,
 				94C71ADC21824129004F9FA3 /* Result.swift in Sources */,
+				94C71B0821852FE1004F9FA3 /* OpenWeatherAPI_CurrentWeather.swift in Sources */,
 				94C71AF021825698004F9FA3 /* Root.swift in Sources */,
 				94C71AFA2182A4B5004F9FA3 /* Root_BaseCtr.swift in Sources */,
 				94C71AED21825664004F9FA3 /* Root_Ctr.swift in Sources */,

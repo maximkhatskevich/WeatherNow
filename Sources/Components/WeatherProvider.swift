@@ -15,9 +15,12 @@ enum WeatherProvider
 {
     case ready(OpenWeatherAPI)
     case unavailable(OpenWeatherAPI.InitializationError)
-    
-    // MARK: Initializers
-    
+}
+
+// MARK: - Initializers
+
+extension WeatherProvider
+{
     init(
         with bundle: Bundle = .main
         )
@@ -44,6 +47,26 @@ enum WeatherProvider
     }
 }
 
+// MARK: - Converters
+
+extension WeatherProvider
+{
+    /**
+     Convert weather snapshot from service-specific into app-specific representation.
+     */
+    static
+    let convert: (OpenWeatherAPI.CurrentWeather.Snapshot) -> WeatherSnapshot = {
+        
+        WeatherSnapshot(
+            name: $0.name,
+            temperature: $0.main.temp.flatMap{ Int($0) },
+            summary: $0.weather.first?.description,
+            countryCode: $0.sys.country,
+            timestamp: $0.dt
+        )
+    }
+}
+
 // MARK: - Actions
 
 extension WeatherProvider
@@ -60,12 +83,12 @@ extension WeatherProvider
         for location: CLLocationCoordinate2D
         ) -> CurrentWeatherResult
     {
-        let processResponse: (OpenWeatherAPI.CurrentWeatherResult) -> CurrentWeatherResult = {
+        let processResponse: (OpenWeatherAPI.CurrentWeather.RequestResult) -> CurrentWeatherResult = {
             
             switch $0
             {
             case .value(let rawWeather):
-                return .value(CurrentWeather.convertToSnapshot(rawWeather))
+                return .value(type(of: self).convert(rawWeather))
 
             case .error(let error):
                 return .error(.serviceError(error))
@@ -78,28 +101,13 @@ extension WeatherProvider
         {
         case .ready(let service):
             return processResponse(
-                service.currentWeather(
+                service.currentWeather.get(
                     for: location
                 )
             )
             
         case .unavailable(let error):
             return .error(.providerUnavailable(error))
-        }
-    }
-    
-    enum CurrentWeather // scope
-    {
-        static
-        let convertToSnapshot: (OpenWeatherAPI.CurrentWeather) -> WeatherSnapshot = {
-            
-            WeatherSnapshot(
-                name: $0.name,
-                temperature: $0.main.temp.flatMap{ Int($0) },
-                summary: $0.weather.first?.description,
-                countryCode: $0.sys.country,
-                timestamp: $0.dt
-            )
         }
     }
 }
