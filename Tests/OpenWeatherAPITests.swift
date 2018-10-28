@@ -171,14 +171,5 @@ class OpenWeatherAPITests: XCTestCase
         
         XCTAssertEqual(rawWeather.main.temp, 289.5)
         XCTAssertEqual(rawWeather.sys.country, "JP")
-        
-        //---
-        
-        let weather: WeatherSnapshot = WeatherProvider.convert(rawWeather)
-        
-        //---
-        
-        XCTAssertEqual(weather.temperature, 289)
-        XCTAssertEqual(weather.countryCode, "JP")
     }
 }

@@ -28,6 +28,7 @@
 		94C71B012184E28B004F9FA3 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71B002184E28B004F9FA3 /* App.swift */; };
 		94C71B032184E2BB004F9FA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71B022184E2BB004F9FA3 /* AppDelegate.swift */; };
 		94C71B0821852FE1004F9FA3 /* OpenWeatherAPI_CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71B0721852FE1004F9FA3 /* OpenWeatherAPI_CurrentWeather.swift */; };
+		94C71B0A21853939004F9FA3 /* WeatherProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C71B0921853939004F9FA3 /* WeatherProviderTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		94C71B002184E28B004F9FA3 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		94C71B022184E2BB004F9FA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94C71B0721852FE1004F9FA3 /* OpenWeatherAPI_CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherAPI_CurrentWeather.swift; sourceTree = "<group>"; };
+		94C71B0921853939004F9FA3 /* WeatherProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProviderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				94C71AD021822B55004F9FA3 /* OpenWeatherAPITests.swift */,
+				94C71B0921853939004F9FA3 /* WeatherProviderTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94C71AD221822B5A004F9FA3 /* OpenWeatherAPITests.swift in Sources */,
+				94C71B0A21853939004F9FA3 /* WeatherProviderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
